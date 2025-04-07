@@ -1,5 +1,5 @@
-i#!/bin/bash
-iii
+#!/bin/bash
+
 echo "Criando diretórios..."
 
 sudo mkdir /publico
