@@ -1,5 +1,6 @@
 #!/bin/bash
-
+set -euo pipefail
+    
 echo "Criando diretórios..."
 
 sudo mkdir /publico
@@ -15,17 +16,22 @@ groupadd GRP_SEC
 
 echo "Criando usuários..."
 
-useradd carlos -m -s /bin/bash -p $(openssl passwd -6 Senha123) -G GRP_ADM
-useradd maria -m -s /bin/bash -p $(openssl passwd -6 Senha123) -G GRP_ADM
-useradd joao -m -s /bin/bash -p $(openssl passwd -6 Senha123) -G GRP_ADM
+read -r -s -p "Digite a senha padrão dos usuários: " PASSWORD
+echo
+HASHED_PASSWORD=$(openssl passwd -6 "$PASSWORD")
+unset PASSWORD
 
-useradd debora -m -s /bin/bash -p $(openssl passwd -6 Senha123) -G GRP_VEN
-useradd sebastiana -m -s /bin/bash -p $(openssl passwd -6 Senha123) -G GRP_VEN
-useradd roberto -m -s /bin/bash -p $(openssl passwd -6 Senha123) -G GRP_VEN
+useradd carlos -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_ADM
+useradd maria -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_ADM
+useradd joao -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_ADM
 
-useradd josefina -m -s /bin/bash -p $(openssl passwd -6 Senha123) -G GRP_SEC
-useradd amanda -m -s /bin/bash -p $(openssl passwd -6 Senha123) -G GRP_SEC
-useradd rogerio -m -s /bin/bash -p $(openssl passwd -6 Senha123) -G GRP_SEC
+useradd debora -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_VEN
+useradd sebastiana -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_VEN
+useradd roberto -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_VEN
+
+useradd josefina -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_SEC
+useradd amanda -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_SEC
+useradd rogerio -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_SEC
 
 echo "Específicando permissões dos diretórios..."
 
