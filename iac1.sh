@@ -1,6 +1,11 @@
 #!/bin/bash
 set -euo pipefail
     
+if [[ $EUID -ne 0 ]]; then
+    echo "ERROR: this script must be run as root (sudo)." >&2
+    exit 1
+fi
+
 echo "Criando diretórios..."
 
 sudo mkdir /publico
