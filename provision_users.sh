@@ -11,10 +11,10 @@ exec >> "$LOG" 2>&1
 
 echo "Creating folders..."
 
-sudo mkdir -p /public
-sudo mkdir -p /adm
-sudo mkdir -p /sales
-sudo mkdir -p /sec
+mkdir -p /public
+mkdir -p /adm
+mkdir -p /sales
+mkdir -p /sec
 
 echo "Creating user groups..."
 
@@ -29,21 +29,32 @@ echo
 HASHED_PASSWORD=$(openssl passwd -6 "$PASSWORD")
 unset PASSWORD
 
+# TODO: refactor useradd + chage into a function to reduce repetition
+
 useradd carl -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_ADM
+chage -d 0 carl
 useradd mary -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_ADM
+chage -d 0 mary
 useradd john -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_ADM
+chage -d 0 john
 
 useradd diana -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_SALES
+chage -d 0 diana
 useradd sebastian -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_SALES
+chage -d 0 sebastian
 useradd robert -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_SALES
+chage -d 0 robert
 
 useradd joe -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_SEC
+chage -d 0 joe
 useradd amanda -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_SEC
+chage -d 0 amanda
 useradd roger -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_SEC
+chage -d 0 roger
 
 echo "Setting permissions..."
 
-chmod 777 /public
+chmod 1777 /public
 chmod 770 /adm
 chmod 770 /sales
 chmod 770 /sec
