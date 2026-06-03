@@ -6,12 +6,15 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 
+LOG="/var/log/provision_user.log"
+exec >> "$LOG" 2>&1
+
 echo "Creating folders..."
 
-sudo mkdir /public
-sudo mkdir /adm
-sudo mkdir /sales
-sudo mkdir /sec
+sudo mkdir -p /public
+sudo mkdir -p /adm
+sudo mkdir -p /sales
+sudo mkdir -p /sec
 
 echo "Creating user groups..."
 
