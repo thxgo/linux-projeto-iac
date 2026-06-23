@@ -7,7 +7,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 LOG="/var/log/provision_user.log"
-exec >> "$LOG" 2>&1
+exec > >(tee -a "$LOG") 2>&1
 
 create_user() {
   local USERNAME=$1
