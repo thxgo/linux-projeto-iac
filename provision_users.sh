@@ -9,6 +9,8 @@ fi
 LOG="/var/log/provision_user.log"
 exec > >(tee -a "$LOG") 2>&1
 
+trap "echo 'ERROR: script interrupted.'; exit 1" SIGINT SIGTERM
+
 create_user() {
   local USERNAME=$1
   local GROUP=$2
