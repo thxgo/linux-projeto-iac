@@ -13,7 +13,7 @@ create_user() {
   local USERNAME=$1
   local GROUP=$2
 
-  useradd "$USERNAME" -m -s /bin/bash -p "$HASHED_PASSWORD" -G "$GROUP"
+  getent passwd "$USERNAME" &>/dev/null || useradd "$USERNAME" -m -s /bin/bash -p "$HASHED_PASSWORD" -G "$GROUP"
   chage -d 0 "$USERNAME"
 }
 
@@ -26,9 +26,9 @@ mkdir -p /sec
 
 echo "Creating user groups..."
 
-groupadd GRP_ADM
-groupadd GRP_SALES
-groupadd GRP_SEC
+getent group GRP_ADM || groupadd GRP_ADM
+getent group GRP_SALES || groupadd GRP_SALES
+getent group GRP_SEC || groupadd GRP_SEC
 
 echo "Creating users..."
 
