@@ -9,6 +9,14 @@ fi
 LOG="/var/log/provision_user.log"
 exec >> "$LOG" 2>&1
 
+create_user() {
+  local USERNAME=$1
+  local GROUP=$2
+
+  useradd "$USERNAME" -m -s /bin/bash -p "$HASHED_PASSWORD" -G "$GROUP"
+  chage -d 0 "$USERNAME"
+}
+
 echo "Creating folders..."
 
 mkdir -p /public
@@ -29,28 +37,17 @@ echo
 HASHED_PASSWORD=$(openssl passwd -6 "$PASSWORD")
 unset PASSWORD
 
-# TODO: refactor useradd + chage into a function to reduce repetition
+create_user carl GRP_ADM
+create_user mary GRP_ADM
+create_user john GRP_ADM
 
-useradd carl -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_ADM
-chage -d 0 carl
-useradd mary -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_ADM
-chage -d 0 mary
-useradd john -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_ADM
-chage -d 0 john
+create_user diana GRP_SALES
+create_user sebastian GRP_SALES
+create_user robert GRP_SALES
 
-useradd diana -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_SALES
-chage -d 0 diana
-useradd sebastian -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_SALES
-chage -d 0 sebastian
-useradd robert -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_SALES
-chage -d 0 robert
-
-useradd joe -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_SEC
-chage -d 0 joe
-useradd amanda -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_SEC
-chage -d 0 amanda
-useradd roger -m -s /bin/bash -p "$HASHED_PASSWORD" -G GRP_SEC
-chage -d 0 roger
+create_user joe GRP_SEC
+create_user amanda GRP_SEC
+create_user roger GRP_SEC
 
 echo "Setting permissions..."
 
